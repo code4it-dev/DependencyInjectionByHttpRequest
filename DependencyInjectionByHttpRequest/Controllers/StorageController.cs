@@ -15,12 +15,17 @@ namespace DependencyInjectionByHttpRequest.Controllers
             _fileSystemAccess = fileSystemAccess;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> SaveContent(string content)
+        [HttpPost]
+        public async Task<IActionResult> SaveContent([FromBody] FileInfo content)
         {
             string filename = $"file-{DateTime.UtcNow:yyyyMMddhhmmss}.txt";
-            await _fileSystemAccess.WriteOnFile(filename, content);
-            return Ok();
+            var saveResult = await _fileSystemAccess.WriteOnFile(filename, content.Content);
+            return Ok(saveResult);
+        }
+
+        public class FileInfo
+        {
+            public string Content { get; set; }
         }
     }
 }
