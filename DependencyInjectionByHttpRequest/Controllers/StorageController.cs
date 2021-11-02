@@ -18,7 +18,7 @@ namespace DependencyInjectionByHttpRequest.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveContent([FromBody] FileInfo content)
         {
-            string filename = $"file-{DateTime.UtcNow:yyyyMMddhhmmss}.txt";
+            string filename = $"file-{Guid.NewGuid()}.txt";
             var saveResult = await _fileSystemAccess.WriteOnFile(filename, content.Content);
             return Ok(saveResult);
         }
